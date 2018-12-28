@@ -28,6 +28,7 @@ int moisture_sensor; //reading from the moisture sensor
 boolean water_level; //reading from the water level sensor in true or false format
 
 void setup() {
+  delay(time_delay*2);
   // put your setup code here, to run once:
   //DEFINE PIN MODES FOR EACH PIN USED
   pinMode(moisture_setpoint_pin, INPUT);
@@ -40,7 +41,7 @@ void setup() {
   digitalWrite(moisture_sensor_power_pin, LOW);
   digitalWrite(led_pin, LOW);
   digitalWrite(pump_pin, LOW);
-
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -49,8 +50,12 @@ void loop() {
 
   //READ MOISTURE SETPOINT, SAVE THE SETTING
   moisture_setpoint = analogRead(moisture_setpoint_pin);
+  Serial.println(moisture_setpoint);
   //READ MOISTURE SENSOR INPUT
+  digitalWrite(moisture_sensor_power_pin,HIGH);
   moisture_sensor = analogRead(moisture_sensor_input_pin);
+  digitalWrite(moisture_sensor_power_pin,LOW);
+  Serial.println(moisture_sensor);
   //READ WATER LEVEL SENSOR
   water_level = digitalRead(water_level_pin);
   //COMPARE THE READINGS AND BEGIN TO PUMP IF REQUIREMENTS ARE MET
